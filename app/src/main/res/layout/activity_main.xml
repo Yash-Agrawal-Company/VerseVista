@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#1A1516"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="100dp">
+            <ImageView
+                android:id="@+id/profileIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="profilePage"
+                android:src="@drawable/photo"
+                android:contentDescription="profileIcon" />
+        </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:background="@drawable/search_back"
+        android:textColor="@color/black"
+        android:textColorHint="#9D9D9D"
+        android:inputType="text"
+        android:padding="10dp"
+        android:elevation="10dp"
+        android:layout_margin="10dp"
+        android:hint="Search . . "
+        android:autofillHints="username" />
+
+    </LinearLayout>
+<Toolbar
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/black"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/poetryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="20dp"
+        tools:listitem="@layout/poetry_list_item"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/pen_img"
+            android:backgroundTint="@color/themeColor"
+            android:contentDescription="Floating action button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

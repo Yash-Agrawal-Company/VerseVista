@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">VerseVista</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="forget_password"><u>Forget Password?</u></string>
+    <string name="create_a_new_account"><u>Create a new account</u></string>
+    <string name="already_have_an_account_login"><u>Already have an account, Login</u></string>
+    <string name="yash_agrawal931"><u>yash_agrawal931</u></string>
+    <string name="poetry">"In love's gentle embrace, hearts find their sweetest song,
+A dance of souls, where two spirits truly belong.
+Eternal bliss in every beat, love\'s melody, forever strong."</string>
+</resources>

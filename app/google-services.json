@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258025746762",
+    "project_id": "versevista-761b6",
+    "storage_bucket": "versevista-761b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258025746762:android:2a40a0766398fe460691b3",
+        "android_client_info": {
+          "package_name": "com.yashagrawal.versevista"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj2TNfUopxJce80VnDtTsXnAhqDudO4dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
