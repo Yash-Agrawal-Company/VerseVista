@@ -27,8 +27,8 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var submit: Button
     private lateinit var progress: ProgressBar
-    private lateinit var COLLECTION : String
-    private lateinit var db : FirebaseFirestore
+    private lateinit var COLLECTION: String
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -45,7 +45,7 @@ class SignUpActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            var userData = mutableMapOf<String,String>()
+                            var userData = mutableMapOf<String, String>()
                             userData["Name"] = fullNameText
                             userData["Username"] = userNameText
                             userData["Email address"] = emailText

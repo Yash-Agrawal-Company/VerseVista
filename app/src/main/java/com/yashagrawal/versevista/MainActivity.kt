@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         poetryRecyclerView.adapter = PoetryListAdapter(this,myPoetries)
         poetryRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        /// Now i am going to start designing the writing poetry acitviy
+        /// Now i am going to start designing the writing poetry activity
         floatingActionButton.setOnClickListener {
             val intent = Intent(this,WritingPoetryActivity::class.java)
             startActivity(intent)
