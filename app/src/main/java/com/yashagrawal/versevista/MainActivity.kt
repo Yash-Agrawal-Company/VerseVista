@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 //        initializing the objects
         init()
         profileIcon.scaleType = ImageView.ScaleType.FIT_XY
+
         var poetry = "\"In love's gentle embrace, hearts find their sweetest song,\n" +
                 "A dance of souls, where two spirits truly belong.\n" +
                 "Eternal bliss in every beat, love\\'s melody, forever strong.\""
