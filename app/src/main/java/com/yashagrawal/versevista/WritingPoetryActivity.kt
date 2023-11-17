@@ -1,5 +1,8 @@
 package com.yashagrawal.versevista
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -33,38 +36,58 @@ class WritingPoetryActivity : AppCompatActivity() {
 
         // Initializing
         init()
-        var poetryData = PoetryModel()
+        val poetryData = PoetryModel()
         publish.setOnClickListener {
-           val poetry = writingPad.text.toString().trim()
-            db.collection(COLLECTION).document(mAuth.currentUser!!.uid).get().addOnSuccessListener{document->
-                if (document.exists()){
-                    val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale.ENGLISH)
-                    val currentDate = LocalDate.now()
-                    val formattedDate = currentDate.format(formatter).toString()
-                    poetryData.userName = document.get("Username").toString()
-                    poetryData.date = formattedDate
-                    poetryData.poetry = "\""+poetry+"\""
+            if (isInternetAvailable()) {
+                val poetry = writingPad.text.toString().trim()
 
-//                    inputting poetry data into database
-                    db.collection(POETRY_COLLECTION).add(poetryData).addOnCompleteListener {task->
-                        if (task.isSuccessful){
-                            showToast(this,"Poetry Published Successfully")
-                            writingPad.clearFocus()
-                            writingPad.text = null
-                        }else{
-                            showToast(this,"Some error occurred while publishing poetry")
+                db.collection(COLLECTION).document(mAuth.currentUser!!.uid).get()
+                    .addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            val formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy", Locale.ENGLISH)
+                            val currentDate = LocalDate.now()
+                            val formattedDate = currentDate.format(formatter).toString()
+                            poetryData.userName = document.get("Username").toString()
+                            poetryData.date = formattedDate
+                            poetryData.poetry = "\"$poetry\""
+
+                            // Inputting poetry data into the database
+                            db.collection(POETRY_COLLECTION).add(poetryData)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        showToast(this, "Poetry Published Successfully")
+                                        writingPad.clearFocus()
+                                        writingPad.text = null
+                                    } else {
+                                        showToast(this, "Some error occurred while publishing poetry")
+                                    }
+                                }
+                                .addOnFailureListener { exception ->
+                                    showToast(this, "Error adding poetry data: $exception")
+                                }
+                        } else {
+                            showToast(this, "Document not found")
                         }
                     }
-                }else{
-                    showToast(this,"Document not found")
-                }
-
+                    .addOnFailureListener { exception ->
+                        showToast(this, "Error getting user document: $exception")
+                    }
+            } else {
+                showToast(this, "Network problem. Poetry not published.")
             }
-
-
-
         }
+
+
+
     }
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
+
     private fun init(){
         publish = findViewById(R.id.publish)
         POETRY_COLLECTION = "Poetries"
@@ -73,6 +96,5 @@ class WritingPoetryActivity : AppCompatActivity() {
          currentUser = mAuth.currentUser!!
         writingPad = findViewById(R.id.writingArea)
         COLLECTION = "Users"
-
     }
 }

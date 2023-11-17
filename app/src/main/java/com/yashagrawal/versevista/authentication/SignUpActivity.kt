@@ -45,7 +45,7 @@ class SignUpActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            var userData = mutableMapOf<String, String>()
+                            val userData = mutableMapOf<String, String>()
                             userData["Name"] = fullNameText
                             userData["Username"] = userNameText
                             userData["Email address"] = emailText
@@ -72,7 +72,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     //Initialization of variables
-    fun init() {
+    private fun init() {
         fullName = findViewById(R.id.fullName)
         userName = findViewById(R.id.uname)
         email = findViewById(R.id.email)
@@ -109,23 +109,22 @@ class SignUpActivity : AppCompatActivity() {
 
         // extract the entered data from the EditText
         val emailToText = etMail?.editText?.text.toString().trim()
-        if (emailToText.isEmpty()) {
+        return if (emailToText.isEmpty()) {
             etMail?.error = "Field cannot be empty"
-            return false
+            false
         } else if (emailToText.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailToText)
                 .matches()
         ) {
             etMail?.error = null
             etMail?.isErrorEnabled = false
-            return true
+            true
         } else {
             etMail?.error = "Enter valid Email address !"
-            return false
+            false
         }
     }
 
     private fun validateUserName(): Boolean {
-        val i = 0
         val temp: String = userName.editText!!.text.toString().trim()
         return if (temp.isEmpty()) {
             userName.error = "Field cannot be empty"
