@@ -22,7 +22,7 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
 
     override fun onBindViewHolder(holder: PoetryViewHolder, position: Int) {
         val currentPoetry = poetryList[position]
-        holder.userName.text = currentPoetry.userName
+        holder.userName.text = currentPoetry.username
         holder.poetry.text = currentPoetry.poetry
         holder.date.text = currentPoetry.date
     }
