@@ -37,12 +37,17 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var listenerRegistration: ListenerRegistration
     private var userName: String? = null
     private lateinit var edit_profile_btn: TextView
+    private  var uid : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         init()
+
+        uid = intent.getStringExtra("userId")
+
+
         setSupportActionBar(toolbar)
         uname.visibility = View.GONE
         fullName.visibility = View.GONE
@@ -51,7 +56,7 @@ class ProfileActivity : AppCompatActivity() {
 // Assuming currentUserUid is the UID of the authenticated user
         val db = Firebase.firestore
         val COLLECTION = db.collection("Users")
-        val currentUserUid = auth.currentUser?.uid
+        val currentUserUid = uid
         currentUserUid?.let { uid ->
             COLLECTION.document(uid).get()
                 .addOnSuccessListener { documentSnapshot ->
@@ -59,6 +64,7 @@ class ProfileActivity : AppCompatActivity() {
                         val name = documentSnapshot.getString("Name")
                         userName = documentSnapshot.getString("Username")
                         val emailAddress = documentSnapshot.getString("Email address")
+
                         fullName.text = name
                         uname.text = userName
                         email.text = "Email : $emailAddress"
@@ -82,6 +88,7 @@ class ProfileActivity : AppCompatActivity() {
         poetryListAdapter = PoetryListAdapter(this, myPoetries)
         poetryRecyclerView.adapter = poetryListAdapter
         poetryRecyclerView.layoutManager = LinearLayoutManager(this)
+
         logOut.setOnClickListener {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.log_out_dialog)
@@ -108,6 +115,7 @@ class ProfileActivity : AppCompatActivity() {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
 
             val save_btn = dialog.findViewById<Button>(R.id.send_email)
+
             save_btn.setOnClickListener {
                 val changeNameValue =
                     dialog.findViewById<EditText>(R.id.change_name).text.toString().trim()
@@ -173,7 +181,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun startListeningForUpdates() {
-        db.collection("Poetries").document(auth.currentUser!!.uid).collection("User Poetries").get()
+        db.collection("Poetries").document(uid!!).collection("User Poetries").get()
             .addOnSuccessListener { snapshots ->
                 myPoetries.clear()
                 for (snapshot in snapshots) {
@@ -191,17 +199,6 @@ class ProfileActivity : AppCompatActivity() {
             }
     }
 
-    private fun getUserName(): String? {
-
-        var uName = ""
-        val COLLECTION = "Users"
-        db.collection(COLLECTION).document(auth.currentUser!!.uid).get().addOnSuccessListener {
-            uName = it.getString("Username")!!
-            showToast(this, "Correct username \n$uName")
-        }
-        return uName
-
-    }
 
 
 }

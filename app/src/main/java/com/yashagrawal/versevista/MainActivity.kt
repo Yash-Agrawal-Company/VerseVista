@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     // Go to Profile Activity
     fun profilePage(view: View) {
         val intent = Intent(this,ProfileActivity::class.java)
+        intent.putExtra("userId",auth.currentUser!!.uid)
         startActivity(intent)
     }
     fun defineProgressBar(){
