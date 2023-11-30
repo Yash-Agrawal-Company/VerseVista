@@ -9,15 +9,17 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:background="@color/themeColor"
+        android:background="@drawable/toolbar_background"
+        android:elevation="120dp"
         android:layout_height="?attr/actionBarSize"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/parentLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="11dp"
         android:gravity="center"
         android:orientation="vertical">
         <androidx.cardview.widget.CardView
@@ -37,6 +39,8 @@
             android:layout_height="wrap_content"
             android:text="Yash Agrawal"
             android:textStyle="bold"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:fontFamily="sans-serif-black"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -47,6 +51,8 @@
             android:layout_height="wrap_content"
             android:text="@string/yash_agrawal931"
             android:textStyle="bold"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             android:fontFamily="monospace"
             android:textAlignment="center"
             android:textSize="20sp"/>

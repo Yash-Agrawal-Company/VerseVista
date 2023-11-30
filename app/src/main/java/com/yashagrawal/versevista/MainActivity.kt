@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var poetryListAdapter : PoetryListAdapter
     private lateinit var progressBar : ProgressBar
     private lateinit var auth: FirebaseAuth
-
+    private lateinit var searchBox : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         defineProgressBar()
 
         // Scaling the profile icon
-        profileIcon.scaleType = ImageView.ScaleType.FIT_XY
+        profileIcon.scaleType = ImageView.ScaleType.CENTER_CROP
 
 
         poetryListAdapter = PoetryListAdapter(this, myPoetries)
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         db = Firebase.firestore
         progressBar = findViewById(R.id.progressBar)
         auth = Firebase.auth
+        searchBox = findViewById(R.id.searchBox)
     }
 
     // Go to Profile Activity
@@ -124,6 +126,11 @@ class MainActivity : AppCompatActivity() {
         progressBarAnimator.repeatCount = ValueAnimator.INFINITE
         // Start the animation
         progressBarAnimator.start()
+    }
+
+    // Going to design this
+    private fun searchUserName(){
+
     }
 
 }

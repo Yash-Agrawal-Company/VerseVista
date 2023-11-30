@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -38,6 +39,7 @@ class ProfileActivity : AppCompatActivity() {
     private var userName: String? = null
     private lateinit var edit_profile_btn: TextView
     private  var uid : String? = null
+    private lateinit var parentLayout : ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +91,10 @@ class ProfileActivity : AppCompatActivity() {
         poetryRecyclerView.adapter = poetryListAdapter
         poetryRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        if (uid != auth.currentUser!!.uid){
+            parentLayout.removeView(logOut)
+            parentLayout.removeView(edit_profile_btn)
+        }
         logOut.setOnClickListener {
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.log_out_dialog)
@@ -178,6 +184,7 @@ class ProfileActivity : AppCompatActivity() {
         POETRY_COLLECTION = "Poetries"
         db = Firebase.firestore
         edit_profile_btn = findViewById(R.id.edit_profile)
+        parentLayout = findViewById(R.id.parentLinearLayout)
     }
 
     private fun startListeningForUpdates() {
