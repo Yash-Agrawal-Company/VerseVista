@@ -71,21 +71,27 @@ class MainActivity : AppCompatActivity() {
         poetriesCollectionRef.orderBy(com.google.firebase.firestore.FieldPath.documentId(), com.google.firebase.firestore.Query.Direction.DESCENDING)
 
         listenerRegistration = poetriesCollectionRef.addSnapshotListener{querySnapshot,exception ->
-            myPoetries.clear()
-                for (document in querySnapshot!!.documents) {
-                    // Convert each document to a PoetryModel object
-                    val currentPoetryData = document.toObject(PoetryModel::class.java)
-                    // Add the PoetryModel to the list
-                    myPoetries.add(currentPoetryData!!)
-                }
-                poetryListAdapter.notifyDataSetChanged()
             if(exception != null){
                 showToast(this,"Failed to load Poetries")
                 exception.localizedMessage?.let {
                     Log.d("Loading Poetries Exception",
                         it.toString())
                 }
+                return@addSnapshotListener
             }
+            if (querySnapshot != null) {
+                myPoetries.clear()
+                for (document in querySnapshot.documents) {
+                    // Convert each document to a PoetryModel object
+                    val currentPoetryData = document.toObject(PoetryModel::class.java)
+                    // Add the PoetryModel to the list
+                    myPoetries.add(currentPoetryData!!)
+                }
+            }else{
+                showToast(this,"NO poetry till now")
+            }
+                poetryListAdapter.notifyDataSetChanged()
+
             }
 
         }
