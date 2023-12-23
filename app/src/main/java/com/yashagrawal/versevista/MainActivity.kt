@@ -1,4 +1,5 @@
 package com.yashagrawal.versevista
+
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import com.yashagrawal.versevista.authentication.SignUpActivity
@@ -25,17 +26,17 @@ import com.yashagrawal.versevista.models.PoetryModel
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var profileIcon : ImageView
+    private lateinit var profileIcon: ImageView
     private lateinit var floatingActionButton: FloatingActionButton
-    private lateinit var poetryRecyclerView : RecyclerView
-    private lateinit var db : FirebaseFirestore
-    private lateinit var POETRY_COLLECTION : String
+    private lateinit var poetryRecyclerView: RecyclerView
+    private lateinit var db: FirebaseFirestore
+    private lateinit var POETRY_COLLECTION: String
     private lateinit var listenerRegistration: ListenerRegistration
     private var myPoetries = ArrayList<PoetryModel>()
-    private lateinit var poetryListAdapter : PoetryListAdapter
-    private lateinit var progressBar : ProgressBar
+    private lateinit var poetryListAdapter: PoetryListAdapter
+    private lateinit var progressBar: ProgressBar
     private lateinit var auth: FirebaseAuth
-    private lateinit var searchBox : EditText
+    private lateinit var searchBox: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,43 +61,46 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
         /// Now i am going to start designing the writing poetry activity
         floatingActionButton.setOnClickListener {
-            val intent = Intent(this,WritingPoetryActivity::class.java)
+            val intent = Intent(this, WritingPoetryActivity::class.java)
             startActivity(intent)
         }
     }
 
 
     private fun startListeningForUpdates() {
-        val poetriesCollectionRef = db.collectionGroup("User Poetries")
-        poetriesCollectionRef.orderBy(com.google.firebase.firestore.FieldPath.documentId(), com.google.firebase.firestore.Query.Direction.DESCENDING)
+        val poetriesCollectionRef = db.collection(POETRY_COLLECTION)
+//        poetriesCollectionRef.orderBy(com.google.firebase.firestore.FieldPath.documentId(), com.google.firebase.firestore.Query.Direction.DESCENDING)
 
-        listenerRegistration = poetriesCollectionRef.addSnapshotListener{querySnapshot,exception ->
-            if(exception != null){
-                showToast(this,"Failed to load Poetries")
-                exception.localizedMessage?.let {
-                    Log.d("Loading Poetries Exception",
-                        it.toString())
+        listenerRegistration =
+            poetriesCollectionRef.addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    showToast(this, "Failed to load Poetries")
+                    exception.localizedMessage?.let {
+                        Log.d(
+                            "Loading Poetries Exception",
+                            it.toString()
+                        )
+                    }
+                    return@addSnapshotListener
                 }
-                return@addSnapshotListener
-            }
-            if (querySnapshot != null) {
-                myPoetries.clear()
-                for (document in querySnapshot.documents) {
-                    // Convert each document to a PoetryModel object
-                    val currentPoetryData = document.toObject(PoetryModel::class.java)
-                    // Add the PoetryModel to the list
-                    myPoetries.add(currentPoetryData!!)
+                if (querySnapshot != null) {
+                    myPoetries.clear()
+                    for (document in querySnapshot.documents) {
+                        // Convert each document to a PoetryModel object
+                        val currentPoetryData = document.toObject(PoetryModel::class.java)
+                        // Add the PoetryModel to the list
+                        myPoetries.add(currentPoetryData!!)
+                    }
+                } else {
+                    showToast(this, "NO poetry till now")
                 }
-            }else{
-                showToast(this,"NO poetry till now")
-            }
                 poetryListAdapter.notifyDataSetChanged()
 
             }
 
-        }
+    }
 
-    private fun init(){
+    private fun init() {
         poetryRecyclerView = findViewById(R.id.poetryRecyclerView)
         floatingActionButton = findViewById(R.id.floatingActionButton)
         profileIcon = findViewById(R.id.profileIcon)
@@ -109,11 +113,12 @@ class MainActivity : AppCompatActivity() {
 
     // Go to Profile Activity
     fun profilePage(view: View) {
-        val intent = Intent(this,ProfileActivity::class.java)
-        intent.putExtra("userId",auth.currentUser!!.uid)
+        val intent = Intent(this, ProfileActivity::class.java)
+        intent.putExtra("userId", auth.currentUser!!.uid)
         startActivity(intent)
     }
-    fun defineProgressBar(){
+
+    private fun defineProgressBar() {
         val maxValue = 100
         progressBar.max = maxValue
 
@@ -127,7 +132,8 @@ class MainActivity : AppCompatActivity() {
         // Create an ObjectAnimator for smooth animation
 
 
-        val progressBarAnimator = ObjectAnimator.ofInt(progressBar, "progress", startValue, endValue)
+        val progressBarAnimator =
+            ObjectAnimator.ofInt(progressBar, "progress", startValue, endValue)
         progressBarAnimator.duration = 2000 // Set the duration of the animation in milliseconds
         progressBarAnimator.repeatCount = ValueAnimator.INFINITE
         // Start the animation
@@ -135,7 +141,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Going to design this
-    private fun searchUserName(){
+    private fun searchUserName() {
 
     }
 

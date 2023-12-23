@@ -61,10 +61,10 @@ class WritingPoetryActivity : AppCompatActivity() {
                                 poetryData.username = document.get("Username").toString()
                                 poetryData.date = formattedDate
                                 poetryData.poetry = "\"$poetry\""
-
+                                poetryData.uid = mAuth.currentUser!!.uid
                                 // Inputting poetry data into the database
-                                db.collection(POETRY_COLLECTION).document(mAuth.currentUser!!.uid)
-                                    .collection("User Poetries").add(poetryData)
+                                db.collection(POETRY_COLLECTION)
+                                    .add(poetryData)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             showToast(this, "Poetry Published Successfully")

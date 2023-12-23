@@ -46,7 +46,6 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         init()
-
         uid = intent.getStringExtra("userId")
 
 
@@ -188,14 +187,15 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun startListeningForUpdates() {
-        db.collection("Poetries").document(uid!!).collection("User Poetries").get()
+        db.collection("Poetries").get()
             .addOnSuccessListener { snapshots ->
                 myPoetries.clear()
                 for (snapshot in snapshots) {
                     val currentPoetryData = snapshot.toObject(PoetryModel::class.java)
-
-                    currentPoetryData.let { poetry ->
-                        myPoetries.add(poetry)
+                    if (currentPoetryData.uid == auth.currentUser!!.uid) {
+                        currentPoetryData.let { poetry ->
+                            myPoetries.add(poetry)
+                        }
                     }
 
                 }

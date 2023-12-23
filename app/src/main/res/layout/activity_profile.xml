@@ -9,9 +9,9 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:background="@drawable/toolbar_background"
-        android:elevation="120dp"
-        android:layout_height="?attr/actionBarSize"/>
+        android:elevation="120dp" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
