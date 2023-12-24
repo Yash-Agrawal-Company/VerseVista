@@ -5,12 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <androidx.cardview.widget.CardView
-        android:id="@+id/foundUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="4dp"
         app:cardCornerRadius="20dp">
         <LinearLayout
+            android:id="@+id/foundUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -26,18 +26,17 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    app:cardElevation="10dp"
+                    app:cardElevation="5dp"
                     app:cardCornerRadius="100dp">
                     <ImageView
                         android:id="@+id/profileIcon"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:onClick="profilePage"
                         android:src="@drawable/photo"
                         android:contentDescription="profileIcon" />
                 </androidx.cardview.widget.CardView>
             <TextView
-                android:id="@+id/userName"
+                android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/yash_agrawal931"

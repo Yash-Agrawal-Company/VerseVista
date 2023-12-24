@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -14,9 +14,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:backgroundTint="#1A1516"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_margin="10dp"
             app:cardElevation="10dp"
             app:cardCornerRadius="100dp">
             <ImageView
@@ -28,23 +26,37 @@
                 android:contentDescription="profileIcon" />
         </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/searchBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:background="@drawable/search_back"
-        android:textColor="@color/black"
-        android:textColorHint="#9D9D9D"
-        android:inputType="text"
-        android:padding="10dp"
-        android:elevation="10dp"
-        android:layout_margin="10dp"
-        android:hint="Search . . "
-        android:autofillHints="username" />
+<!--    <EditText-->
+<!--        android:id="@+id/searchBox"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="25sp"-->
+<!--        android:background="@drawable/search_back"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textColorHint="#9D9D9D"-->
+<!--        android:inputType="text"-->
+<!--        android:padding="10dp"-->
+<!--        android:elevation="10dp"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_marginRight="0dp"-->
+<!--        android:drawableEnd="@drawable/search_icon"-->
+<!--        android:hint="Search. . ."-->
+<!--        android:layout_weight="1"-->
+<!--        android:autofillHints="username" />-->
 
-    </LinearLayout>
-<Toolbar
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="profileIcon"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/search_icon" />
+
+    </RelativeLayout>
+<androidx.appcompat.widget.Toolbar
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:background="@color/black"/>

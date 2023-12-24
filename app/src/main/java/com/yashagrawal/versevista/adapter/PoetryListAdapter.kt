@@ -34,12 +34,9 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
         holder.userName.text = currentPoetry.username
         holder.poetry.text = currentPoetry.poetry
         holder.date.text = currentPoetry.date
-
-//            val viewHolder = holder as MainActivityHolder
             holder.userName.setOnClickListener {
                 showProfile(currentPoetry.username.toString())
             }
-
     }
     class PoetryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val userName : TextView = itemView.findViewById(R.id.userName)
@@ -47,12 +44,7 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
         val date : TextView = itemView.findViewById(R.id.dateOfPublished)
 
     }
-    class MainActivityHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val userName : TextView = itemView.findViewById(R.id.userName)
-        val poetry : TextView = itemView.findViewById(R.id.poetry)
-        val date : TextView = itemView.findViewById(R.id.dateOfPublished)
 
-    }
     private fun showProfile(uName : String?){
          val db: FirebaseFirestore = Firebase.firestore
         var uid : String = ""

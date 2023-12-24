@@ -38,8 +38,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var listenerRegistration: ListenerRegistration
     private var userName: String? = null
     private lateinit var edit_profile_btn: TextView
-    private  var uid : String? = null
-    private lateinit var parentLayout : ViewGroup
+    private var uid: String? = null
+    private lateinit var parentLayout: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +90,7 @@ class ProfileActivity : AppCompatActivity() {
         poetryRecyclerView.adapter = poetryListAdapter
         poetryRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        if (uid != auth.currentUser!!.uid){
+        if (uid != auth.currentUser!!.uid) {
             parentLayout.removeView(logOut)
             parentLayout.removeView(edit_profile_btn)
         }
@@ -147,24 +147,27 @@ class ProfileActivity : AppCompatActivity() {
                     }
                     val poetryData = mutableMapOf<String, Any>()
                     poetryData["username"] = changeUsernameValue
-                    val collectionRef = db.collection(POETRY_COLLECTION).document(currentUserUid)
-                        .collection("User Poetries")
+                    val collectionRef = db.collection("Poetries")
+
                     collectionRef.get().addOnSuccessListener { documents ->
                         for (document in documents) {
                             val documentId = document.id
-                            collectionRef.document(documentId).update(poetryData)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        showToast(this, "Changes Saved")
-                                    } else {
-                                        task.exception!!.localizedMessage?.let { it1 ->
-                                            showToast(
-                                                this,
-                                                it1.toString()
-                                            )
+                            val currentPoetryData = document.toObject(PoetryModel::class.java)
+                            if (currentPoetryData.uid == auth.currentUser!!.uid) {
+                                collectionRef.document(documentId).update(poetryData)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            showToast(this, "Changes Saved")
+                                        } else {
+                                            task.exception!!.localizedMessage?.let { it1 ->
+                                                showToast(
+                                                    this,
+                                                    it1.toString()
+                                                )
+                                            }
                                         }
                                     }
-                                }
+                            }
                         }
                     }
                 }
@@ -178,10 +181,10 @@ class ProfileActivity : AppCompatActivity() {
         logOut = findViewById(R.id.logOut)
         fullName = findViewById(R.id.fullName)
         auth = Firebase.auth
+        db = Firebase.firestore
         uname = findViewById(R.id.uname)
         email = findViewById(R.id.email)
         POETRY_COLLECTION = "Poetries"
-        db = Firebase.firestore
         edit_profile_btn = findViewById(R.id.edit_profile)
         parentLayout = findViewById(R.id.parentLinearLayout)
     }
@@ -192,7 +195,7 @@ class ProfileActivity : AppCompatActivity() {
                 myPoetries.clear()
                 for (snapshot in snapshots) {
                     val currentPoetryData = snapshot.toObject(PoetryModel::class.java)
-                    if (currentPoetryData.uid == auth.currentUser!!.uid) {
+                    if (currentPoetryData.uid == uid) {
                         currentPoetryData.let { poetry ->
                             myPoetries.add(poetry)
                         }
@@ -205,8 +208,5 @@ class ProfileActivity : AppCompatActivity() {
                 showToast(this, e.localizedMessage!!)
             }
     }
-
-
-
 }
 

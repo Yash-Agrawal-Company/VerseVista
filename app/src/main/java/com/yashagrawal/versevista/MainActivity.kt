@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var poetryListAdapter: PoetryListAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var auth: FirebaseAuth
-    private lateinit var searchBox: EditText
+    private lateinit var searchIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         /// Now i am going to start designing the writing poetry activity
         floatingActionButton.setOnClickListener {
             val intent = Intent(this, WritingPoetryActivity::class.java)
+            startActivity(intent)
+        }
+        // Defining searchIcon
+        searchIcon.setOnClickListener {
+            val intent = Intent(this,SearchActivity::class.java)
             startActivity(intent)
         }
     }
@@ -108,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         db = Firebase.firestore
         progressBar = findViewById(R.id.progressBar)
         auth = Firebase.auth
-        searchBox = findViewById(R.id.searchBox)
+        searchIcon = findViewById(R.id.searchIcon)
     }
 
     // Go to Profile Activity
@@ -139,6 +144,8 @@ class MainActivity : AppCompatActivity() {
         // Start the animation
         progressBarAnimator.start()
     }
+
+
 
     // Going to design this
     private fun searchUserName() {
