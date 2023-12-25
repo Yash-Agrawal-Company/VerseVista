@@ -3,10 +3,13 @@ package com.yashagrawal.versevista
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +45,23 @@ class SearchActivity : AppCompatActivity() {
         userRecyclerView.adapter = userListAdapter
         userRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        searchBox.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not implemented
+            }
+
+            override fun onTextChanged(textValue: CharSequence?, start: Int, before: Int, count: Int) {
+                val userNameValue = textValue.toString()
+//                if (userNameValue.isNotEmpty()){
+                foundedUser(userNameValue)
+//                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Not implemented
+            }
+
+        })
     }
     private fun init(){
         backBtn = findViewById(R.id.back_btn)
@@ -70,6 +90,41 @@ class SearchActivity : AppCompatActivity() {
                 showToast(this, e.localizedMessage!!)
             }
     }
+    private fun foundedUser(username : String){
+
+        try {
+            db.collection("Users").get()
+                .addOnSuccessListener { documents ->
+                    userList.clear()
+                    for (document in documents) {
+                        val currentUserData = document.toObject(UserModel::class.java)
+
+                        // Checking whether the user is not the current user
+                        if (document.id != auth.currentUser!!.uid) {
+                            // Now checking the user name of the user searched
+                            if (currentUserData.Username!!.startsWith(
+                                    username.trim(),
+                                    ignoreCase = true
+                                )
+                            ) {
+                                currentUserData.let { user ->
+                                    userList.add(user)
+                                    Log.d("Current user id ", currentUserData.uid.toString())
+                                }
+                            }
+                        }
+                    }
+                    userListAdapter.notifyDataSetChanged()
+
+                }.addOnFailureListener { e ->
+                    showToast(this, e.localizedMessage!!)
+                }
+        }
+        catch (e : Exception){
+            Log.d("Search Result problem",e.message.toString())
+        }
+    }
 }
+
 
 // Now i am going to implement search box
