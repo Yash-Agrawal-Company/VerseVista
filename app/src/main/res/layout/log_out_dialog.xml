@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Are you sure to Log out"/>
+            android:text="Are you sure to Log out?"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,6 +39,7 @@
                 android:textSize="25sp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:textColor="@color/black"
                 android:text="Yes"/>
                 <Button
                 android:id="@+id/no"
@@ -47,6 +48,7 @@
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:layout_weight="1"
+                android:textColor="@color/black"
                 android:layout_margin="10dp"
                 android:text="No"/>
             </LinearLayout>

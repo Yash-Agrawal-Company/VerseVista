@@ -7,7 +7,7 @@
         <item name="android:statusBarColor">@color/themeColor</item>
         <item name="colorSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/black</item>
-        <item name="android:navigationBarColor">#DCDADE</item>
         <item name="hintTextColor">@color/themeColor</item>
+
     </style>
 </resources>

@@ -1,15 +1,17 @@
 package com.yashagrawal.versevista
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+import android.view.View.OnTouchListener
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -17,10 +19,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.yashagrawal.versevista.adapter.PoetryListAdapter
 import com.yashagrawal.versevista.adapter.UserListAdapter
-import com.yashagrawal.versevista.models.PoetryModel
 import com.yashagrawal.versevista.models.UserModel
+
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var backBtn : ImageView
@@ -52,9 +53,39 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(textValue: CharSequence?, start: Int, before: Int, count: Int) {
                 val userNameValue = textValue.toString()
-//                if (userNameValue.isNotEmpty()){
-                foundedUser(userNameValue)
+                val cancelIcon = ContextCompat.getDrawable(this@SearchActivity, R.drawable.cancel_icon)
+                val searchIcon = ContextCompat.getDrawable(this@SearchActivity, R.drawable.search_icon)
+                if (userNameValue.isNotEmpty()){
+                    searchBox.setCompoundDrawablesWithIntrinsicBounds(
+                        null,  // left
+                        null,  // top
+                        cancelIcon,  // right
+                        null   // bottom
+                    )
+                }else{
+                    searchBox.setCompoundDrawablesWithIntrinsicBounds(
+                        null,  // left
+                        null,  // top
+                        searchIcon,  // right
+                        null   // bottom
+                    )
+                }
+//                searchBox.setOnTouchListener { v, event ->
+//                    val DRAWABLE_RIGHT = 2
+//                    if (event.action == MotionEvent.ACTION_UP) {
+//                        if (event.rawX >= searchBox.right - searchBox.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
+//                            // Your action here
+//
+//                            // Call performClick to satisfy lint warning
+//
+//                            return@setOnTouchListener true
+//                        }
+//                    }
+//                    false
 //                }
+
+
+                foundedUser(userNameValue)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -62,6 +93,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
         })
+
     }
     private fun init(){
         backBtn = findViewById(R.id.back_btn)
