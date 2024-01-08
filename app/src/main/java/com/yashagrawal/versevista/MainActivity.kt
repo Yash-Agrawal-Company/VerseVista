@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         myPoetries.add(currentPoetryData!!)
                     }
                 } else {
-                    showToast(this, "NO poetry till now")
+                    showToast(this, "No poetry till now")
                 }
                 poetryListAdapter.notifyDataSetChanged()
 

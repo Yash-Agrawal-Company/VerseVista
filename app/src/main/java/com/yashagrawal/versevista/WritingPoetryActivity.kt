@@ -22,6 +22,7 @@ import com.yashagrawal.versevista.models.PoetryModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.UUID
 
 
 class WritingPoetryActivity : AppCompatActivity() {
@@ -62,16 +63,27 @@ class WritingPoetryActivity : AppCompatActivity() {
                                 poetryData.date = formattedDate
                                 poetryData.poetry = "\"$poetry\""
                                 poetryData.uid = mAuth.currentUser!!.uid
+                                poetryData.poetryId = ""
+                                // I am setting to make the poetry id as the unique identifier
                                 // Inputting poetry data into the database
                                 db.collection(POETRY_COLLECTION)
                                     .add(poetryData)
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            showToast(this, "Poetry Published Successfully")
-                                            progressBar.visibility = View.GONE
-                                            publish.isEnabled = true
-                                            writingPad.clearFocus()
-                                            writingPad.text = null
+                                            val documentReference = task.result
+                                            poetryData.poetryId = documentReference.id
+                                            documentReference?.update("poetryId", documentReference.id)?.addOnCompleteListener { updateTask ->
+                                                if (updateTask.isSuccessful) {
+                                                    showToast(this, "Poetry Published Successfully")
+                                                } else {
+                                                    // Handle the failure to update the document
+                                                    showToast(this, "Poetry will be uploaded soon")
+                                                }
+                                                progressBar.visibility = View.GONE
+                                                publish.isEnabled = true
+                                                writingPad.clearFocus()
+                                                writingPad.text = null
+                                            }
                                         } else {
                                             progressBar.visibility = View.GONE
                                             showToast(
