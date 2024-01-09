@@ -6,5 +6,5 @@ data class PoetryModel(
     var username : String? = null,
     var date : String? = null,
     var uid : String? = null,
-    var  globalRating : Float = 0.0f
+    var globalRating : Float = 0.0f,
 )

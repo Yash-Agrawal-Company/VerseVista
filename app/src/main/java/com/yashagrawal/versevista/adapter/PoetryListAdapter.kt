@@ -47,40 +47,7 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
             showProfile(currentPoetry.username.toString())
         }
         holder.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
-            val poetryId = currentPoetry.poetryId.toString()
-            val db: FirebaseFirestore = Firebase.firestore
-            val auth: FirebaseAuth = Firebase.auth
-            val ratingRef = db.collection("Poetries").document(poetryId).collection("Rating")
-
-            // Check if the user has already rated
-            ratingRef.document(auth.currentUser!!.uid).get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document = task.result
-                    if (document.exists()) {
-                        // User has already rated, update the existing rating
-                        ratingRef.document(auth.currentUser!!.uid).update("rating", rating)
-                            .addOnSuccessListener {
-                                showToast(context, "Rating updated successfully")
-                            }
-                            .addOnFailureListener {
-                                showToast(context, "Failed to update rating")
-                            }
-                    } else {
-                        // User is rating for the first time, create a new rating document
-                        val ratingUser =
-                            RatingModel(userId = auth.currentUser!!.uid, rating = rating)
-                        ratingRef.document(auth.currentUser!!.uid).set(ratingUser)
-                            .addOnSuccessListener {
-                                showToast(context, "Rating added successfully")
-                            }
-                            .addOnFailureListener {
-                                showToast(context, "Failed to add rating")
-                            }
-                    }
-                } else {
-                    showToast(context, "Error checking existing rating")
-                }
-            }
+            setUpdateRating(currentPoetry.poetryId.toString(),rating)
         }
 
     }
@@ -111,6 +78,42 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
             showToast(context, "User does not exists")
         }
 
+    }
+
+    private fun setUpdateRating(poetryId: String,rating : Float){
+        val db: FirebaseFirestore = Firebase.firestore
+        val auth: FirebaseAuth = Firebase.auth
+        val ratingRef = db.collection("Poetries").document(poetryId).collection("Rating")
+
+        // Check if the user has already rated
+        ratingRef.document(auth.currentUser!!.uid).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document.exists()) {
+                    // User has already rated, update the existing rating
+                    ratingRef.document(auth.currentUser!!.uid).update("rating", rating)
+                        .addOnSuccessListener {
+                            showToast(context, "Rating updated successfully")
+                        }
+                        .addOnFailureListener {
+                            showToast(context, "Failed to update rating")
+                        }
+                } else {
+                    // User is rating for the first time, create a new rating document
+                    val ratingUser =
+                        RatingModel(userId = auth.currentUser!!.uid, rating = rating)
+                    ratingRef.document(auth.currentUser!!.uid).set(ratingUser)
+                        .addOnSuccessListener {
+                            showToast(context, "Rating added successfully")
+                        }
+                        .addOnFailureListener {
+                            showToast(context, "Failed to add rating")
+                        }
+                }
+            } else {
+                showToast(context, "Error checking existing rating")
+            }
+        }
     }
 
     private fun getRating(poetryId: String?): Float = runBlocking {

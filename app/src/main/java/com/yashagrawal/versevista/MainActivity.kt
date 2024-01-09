@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import com.yashagrawal.versevista.authentication.SignUpActivity
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -46,24 +47,20 @@ class MainActivity : AppCompatActivity() {
         init()
 
         // defining progress Bar
-        defineProgressBar()
+        progressBar.visibility = View.INVISIBLE
 
         // Scaling the profile icon
         profileIcon.scaleType = ImageView.ScaleType.CENTER_CROP
 
 
-        poetryListAdapter = PoetryListAdapter(this, myPoetries)
-        poetryRecyclerView.adapter = poetryListAdapter
-        poetryRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Start listening for real-time updates
-        startListeningForUpdates()
-        progressBar.visibility = View.GONE
+
         /// Now i am going to start designing the writing poetry activity
         floatingActionButton.setOnClickListener {
             val intent = Intent(this, WritingPoetryActivity::class.java)
             startActivity(intent)
         }
+
         // Defining searchIcon
         searchIcon.setOnClickListener {
             val intent = Intent(this,SearchActivity::class.java)
@@ -71,7 +68,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        poetryListAdapter = PoetryListAdapter(this, myPoetries)
+        poetryRecyclerView.adapter = poetryListAdapter
+        poetryRecyclerView.layoutManager = LinearLayoutManager(this)
+        // Start listening for real-time updates
+        startListeningForUpdates()
+    }
     private fun startListeningForUpdates() {
         val poetriesCollectionRef = db.collection(POETRY_COLLECTION)
 //        poetriesCollectionRef.orderBy(com.google.firebase.firestore.FieldPath.documentId(), com.google.firebase.firestore.Query.Direction.DESCENDING)
@@ -123,33 +127,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun defineProgressBar() {
-        val maxValue = 100
-        progressBar.max = maxValue
 
-        // Set the initial progress value
-        val startValue = 0
-        progressBar.progress = startValue
-
-        // Set the desired end value for the progress
-        val endValue = 100
-
-        // Create an ObjectAnimator for smooth animation
-
-
-        val progressBarAnimator =
-            ObjectAnimator.ofInt(progressBar, "progress", startValue, endValue)
-        progressBarAnimator.duration = 2000 // Set the duration of the animation in milliseconds
-        progressBarAnimator.repeatCount = ValueAnimator.INFINITE
-        // Start the animation
-        progressBarAnimator.start()
-    }
-
-
-
-    // Going to design this
-    private fun searchUserName() {
-
-    }
 
 }
