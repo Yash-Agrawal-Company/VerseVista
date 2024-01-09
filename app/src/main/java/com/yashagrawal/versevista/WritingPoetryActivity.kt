@@ -39,15 +39,13 @@ class WritingPoetryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_writing_poetry_activity)
-
-
+        
         // Initializing
         init()
         progressBar.visibility = View.GONE
         val poetryData = PoetryModel()
         publish.setOnClickListener {
             if (isInternetAvailable()) {
-
                 val poetry = writingPad.text.toString().trim()
                 if (poetry.isNotEmpty()){
                     progressBar.visibility = View.VISIBLE
@@ -119,9 +117,6 @@ class WritingPoetryActivity : AppCompatActivity() {
                 showToast(this, "Network problem. Poetry not published.")
             }
         }
-
-
-
     }
     private fun isInternetAvailable(): Boolean {
         val connectivityManager =

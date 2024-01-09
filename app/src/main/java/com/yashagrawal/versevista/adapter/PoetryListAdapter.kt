@@ -93,7 +93,7 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
                     // User has already rated, update the existing rating
                     ratingRef.document(auth.currentUser!!.uid).update("rating", rating)
                         .addOnSuccessListener {
-                            showToast(context, "Rating updated successfully")
+                            Log.d("Rating Uploaded", "Rating updated successfully")
                         }
                         .addOnFailureListener {
                             showToast(context, "Failed to update rating")
@@ -104,7 +104,7 @@ class PoetryListAdapter(var context : Context, var poetryList : ArrayList<Poetry
                         RatingModel(userId = auth.currentUser!!.uid, rating = rating)
                     ratingRef.document(auth.currentUser!!.uid).set(ratingUser)
                         .addOnSuccessListener {
-                            showToast(context, "Rating added successfully")
+                            Log.d("Rating updated", "Rating updated successfully")
                         }
                         .addOnFailureListener {
                             showToast(context, "Failed to add rating")
